@@ -42,7 +42,7 @@ ssh-keyscan -H github.com >> $HOME/.ssh/known_hosts
 
 ./config.sh \
     --name $(hostname) \
-    --labels minder,x64,linux \
+    --labels x64,linux \
     --token ${RUNNER_TOKEN} \
     --url https://github.com/${GITHUB_ENDPOINT} \
     --work ${RUNNER_WORKDIR} \

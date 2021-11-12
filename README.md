@@ -1,2 +1,6 @@
-# self-hosted-runners-onk8s
-Repository to Host github self hosted runners on kubernetes
+- docker build . -t {{ docker repo }}/k8s-github-runner:latest
+- docker push {{ docker repo }}/k8s-github-runner:latest
+- kubectl create ns github
+- kubectl create secret generic github-pat --from-literal='pat={{ private access token }}' -n github
+- kubectl create secret generic github-private-key --from-file=id_rsa={{ github private key for cicd-buildbot }} -n github
+- kubectl apply -f deployment.yaml -n github

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github-runner
+  namespace: github
+  labels:
+    app: github-runner
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: github-runner
+  template:
+    metadata:
+      labels:
+        app: github-runner
+    spec:
+      containers:
+      - name: github-runner
+        image: uchenebed/k8s-github-runner:latest
+        imagePullPolicy: Always
+        env:
+        - name: GITHUB_OWNER
+          value: ""
+        - name: GITHUB_REPOSITORY
+          value: ""
+        - name: GITHUB_PAT
+          valueFrom:
+            secretKeyRef:
+              name: github-pat
+              key: pat
+        volumeMounts:
+        - name: git-private-key
+          mountPath: "/data/secrets/"
+      volumes:
+      - name: git-private-key
+        secret:
+          secretName: github-private-key
+          defaultMode: 0600 
